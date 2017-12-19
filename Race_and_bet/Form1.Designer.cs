@@ -41,9 +41,6 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
@@ -51,6 +48,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.joeBetLabel = new System.Windows.Forms.Label();
+            this.bobBetLabel = new System.Windows.Forms.Label();
+            this.johnBetLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -169,27 +169,6 @@
             this.radioButton3.UseVisualStyleBackColor = true;
             this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(218, 284);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(189, 20);
-            this.textBox1.TabIndex = 11;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(218, 307);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(189, 20);
-            this.textBox2.TabIndex = 12;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(218, 330);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(189, 20);
-            this.textBox3.TabIndex = 13;
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(471, 271);
@@ -248,20 +227,48 @@
             this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // joeBetLabel
+            // 
+            this.joeBetLabel.AutoSize = true;
+            this.joeBetLabel.Location = new System.Drawing.Point(215, 289);
+            this.joeBetLabel.Name = "joeBetLabel";
+            this.joeBetLabel.Size = new System.Drawing.Size(35, 13);
+            this.joeBetLabel.TabIndex = 20;
+            this.joeBetLabel.Text = "label6";
+            // 
+            // bobBetLabel
+            // 
+            this.bobBetLabel.AutoSize = true;
+            this.bobBetLabel.Location = new System.Drawing.Point(215, 310);
+            this.bobBetLabel.Name = "bobBetLabel";
+            this.bobBetLabel.Size = new System.Drawing.Size(35, 13);
+            this.bobBetLabel.TabIndex = 21;
+            this.bobBetLabel.Text = "label7";
+            // 
+            // johnBetLabel
+            // 
+            this.johnBetLabel.AutoSize = true;
+            this.johnBetLabel.Location = new System.Drawing.Point(215, 333);
+            this.johnBetLabel.Name = "johnBetLabel";
+            this.johnBetLabel.Size = new System.Drawing.Size(35, 13);
+            this.johnBetLabel.TabIndex = 22;
+            this.johnBetLabel.Text = "label8";
+            this.johnBetLabel.Click += new System.EventHandler(this.label8_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 399);
+            this.Controls.Add(this.johnBetLabel);
+            this.Controls.Add(this.bobBetLabel);
+            this.Controls.Add(this.joeBetLabel);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.radioButton3);
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
@@ -300,16 +307,16 @@
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label joeBetLabel;
+        private System.Windows.Forms.Label bobBetLabel;
+        private System.Windows.Forms.Label johnBetLabel;
+        public System.Windows.Forms.Timer timer1;
     }
 }
 

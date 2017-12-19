@@ -19,15 +19,14 @@ namespace Race_and_bet
 
     public class Guy
     {
-        public string Name;
-        public Bet MyBet;
-        public int Cash;
+        public string Name; // the guy's name
+        public Bet MyBet; // Intance of Bet that has his bet
+        public int Cash; // amount of owned cash
 
-        public RadioButton MyRadioButton;
-        public Label MyLabel;
-        public TextBox MyTextBox;
+        public RadioButton MyRadioButton; //My radio Button
+        public Label MyLabel; //My Label
 
-        public Guy(string Name, Bet MyBet, int Cash, RadioButton MyRadioButton, TextBox MyTextBox)
+        /*public Guy(string Name, Bet MyBet, int Cash, RadioButton MyRadioButton, TextBox MyTextBox)
         {
             this.Name = Name;
             this.MyBet = MyBet;
@@ -35,38 +34,38 @@ namespace Race_and_bet
             this.MyRadioButton = MyRadioButton;
             this.MyTextBox = MyTextBox;
         }
-
+        */
         public void UpdateLabels()
         {
-            if (MyBet == null)
-            {
-                MyTextBox.Text = Name + " hasn't placed any bets";
-            }
-            else
-            {
-                MyRadioButton.Text = Name + " bets " + Cash + "$";
-            }
+            MyRadioButton.Text = Name + " has " + Cash + " $.";
+            MyLabel.Text = MyBet.GetDescription();
 
         }
 
         public void ClearBet()
         {
-            MyBet.Amount = 0;
+            PlaceBet(0, 0);// reset my bet            
         }
 
-        public bool PlaceBet(int Amount, int Dog)
+        public bool PlaceBet(int BetAmount, int DogToWin)
         {
-            if (Amount <= Cash)
+            if (BetAmount <= Cash)
             {
-                MyBet = new Bet(Amount, Dog, this);
+                MyBet = new Bet() { Amount = BetAmount, Dog = DogToWin, Bettor = this };
+                UpdateLabels();
                 return true;
             }
-            return false;
+            else
+            {
+                return false;
+            }
+
         }
 
         public void Collect(int Winner)
         {
             Cash += MyBet.PayOut(Winner);
+            UpdateLabels();
         }
 
     }
@@ -76,60 +75,59 @@ namespace Race_and_bet
         public int StartingPosition; //place where race begin 
         public int RaceTrackLenght; // lenght of race track
         public PictureBox MyPictureBox = null; // object which gonna race
-        public int location = 0; // location on track
-        public Random MyRandom; // class instance Random
-        public bool finish;
+        public int Location = 0; // location on track
+        public Random Randomizer; //An instance of Random
 
+
+        // Move forward 1,2,3 or 4 at random
+        // Update the position of my PictureBox on the form 
+        // Return true if won the race
         public bool Run()
         {
-             MyRandom = new Random();
+            Location += Randomizer.Next(1, 4);
+            MyPictureBox.Left = StartingPosition + Location;
+            MyPictureBox.Refresh();
 
-            if (MyPictureBox != null)
-            {
-                StartingPosition += location.Next(1, 5);
-                ///location += MyRandom.Next(1, 4); // go random 1, 2, 3 or 4 points
-            }
-            //return (MyPictureBox.Right >= RaceTrackLenght - MyPictureBox.Width);
-            return true;
+
+            if (MyPictureBox.Left >= RaceTrackLenght - MyPictureBox.Width + 20)
+                return true;
+            else
+                return false;
         }
+    
 
         public void TakeStartingPosition()
         {
-            StartingPosition = 0;            
+            Location = 0; // Set my location  to 0
+            MyPictureBox.Left = StartingPosition; // Take myPictureBox to starting position           
         }
     }
 
     public class Bet
     {
-        public int Amount;
-        public int Dog;
-        public Guy Bettor;
+        public int Amount; // The cash that was bet
+        public int Dog; // The number of Dog the bet is on
+        public Guy Bettor; // The goy who placed bet
 
-        public Bet(int Amount, int Dog, Guy Bettor)
-        {
-            this.Amount = Amount;
-            this.Dog = Dog;
-            this.Bettor = Bettor;
-        }
+        //Return string: who placed bet, how much and which dog he bet
+        // If the amount = 0, no bet was placed
 
         public string GetDescription()
-        {
-            string description = " ";
-            if (Amount != 0)
+        {              
+            if (Amount > 0)
             {
-                description += Bettor.Name + " bets " + Amount + " at dog no. " + Dog;
+                return Bettor.Name + " bets " + Amount + " on #" + Dog;                
             }
             else
             {
-                description += Bettor.Name + " hasn't placed any bets.";
+                return Bettor.Name + " hasn't plpaced a bet";               
             }
-            return description;
-
-        }
+           }
         
+        //If the dog won, return bet amount. Otherwise, return a negative bet amount
         public int PayOut(int Winner)
         {
-            if (Dog == Winner)
+            if (Winner == Dog)
             {
                 return Amount;
             } 

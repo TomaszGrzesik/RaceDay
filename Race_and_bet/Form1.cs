@@ -14,6 +14,7 @@ namespace Race_and_bet
     {
         Hound[] dogs = new Hound[4];
         Guy[] guys = new Guy[3];
+        Random MyRandomizer = new Random();
 
         public Form1()
         {
@@ -23,61 +24,72 @@ namespace Race_and_bet
 
         private void SetupRaceTrack()
         {
-            label2.Text = "Minimum Bet " + numericUpDown1;
+            /*label2.Text = "Minimum Bet " + numericUpDown1;
 
             int StartingPoint = pictureBox2.Right - pictureBox1.Right;
             int TrackLenght = pictureBox1.Size.Width;
-
+            */
             dogs[0] = new Hound()
             {
                 MyPictureBox = pictureBox2,
-                RaceTrackLenght = TrackLenght,
-                StartingPosition = StartingPoint
+                RaceTrackLenght = pictureBox1.Width - pictureBox2.Width,
+                StartingPosition = pictureBox1.Left,
+                Randomizer = MyRandomizer
             };
 
             dogs[1] = new Hound()
             {
                 MyPictureBox = pictureBox3,
-                RaceTrackLenght = TrackLenght,
-                StartingPosition = StartingPoint
+                RaceTrackLenght = pictureBox1.Width - pictureBox3.Width,
+                StartingPosition = pictureBox1.Left,
+                Randomizer = MyRandomizer
             };
 
             dogs[2] = new Hound()
             {
-                MyPictureBox = pictureBox4,
-                RaceTrackLenght = TrackLenght,
-                StartingPosition = StartingPoint
+                MyPictureBox = pictureBox3,
+                RaceTrackLenght = pictureBox1.Width - pictureBox3.Width,
+                StartingPosition = pictureBox1.Left,
+                Randomizer = MyRandomizer
             };
 
             dogs[3] = new Hound()
             {
-                MyPictureBox = pictureBox5,
-                RaceTrackLenght = TrackLenght,
-                StartingPosition = StartingPoint
+                MyPictureBox = pictureBox4,
+                RaceTrackLenght = pictureBox1.Width - pictureBox4.Width,
+                StartingPosition = pictureBox1.Left,
+                Randomizer = MyRandomizer
             };
 
-            guys[0] = new Guy( "Joe", null, 50, radioButton1, textBox1);
-            guys[1] = new Guy("Bob", null, 75, radioButton2, textBox2);
-            guys[2] = new Guy("John", null, 5, radioButton3, textBox3);
+            guys[0] = new Guy() { Name = "Joe", Cash = 50, MyRadioButton = radioButton1, MyLabel = joeBetLabel };
+            //guys[0] = new Guy() { "Joe", 50, radioButton1, textBox1 };
+            guys[1] = new Guy() { Name = "Bob", Cash = 75, MyRadioButton = radioButton2, MyLabel = bobBetLabel  };
+            guys[2] = new Guy() { Name = "John", Cash = 5, MyRadioButton = radioButton3, MyLabel = johnBetLabel };
 
-            foreach( Guy guy in guys)
+            /*foreach( Guy guy in guys)
             {
                 guy.UpdateLabels();
+            }*/
+            label2.Text = "Minimum bet: " + numericUpDown1.Minimum + " $.";
+            refreshGuyState();
+        }
+
+        public void refreshGuyState()
+        {
+            for (int i = 0; i < guys.Length; i++)
+            {
+                guys[i].ClearBet();
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            bool NoWinner = true;
-            int WinningDog;
-            button1.Enabled = false;
-
-            while (NoWinner)
+            for (int c = 0; c < dogs.Length; c++)
             {
-                Application.DoEvents();
-
+                dogs[c].TakeStartingPosition();
             }
-
+            //bettingGroup.Enabled = false;
+            timer1.Start();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -127,17 +139,34 @@ namespace Race_and_bet
         {
 
         }
-
+        
         private void timer1_Tick(object sender, EventArgs e)
         {
-            for (int i = 0; i< 3; i++)
+            int winningDog = 0;
+
+            for (int i = 0; i< dogs.Length; i++)
             {
-                if (dogs[i] != null)
+                if (dogs[i].Run())
                 {
-                    dogs[i].Run();
+                    timer1.Stop();
+                    winningDog = i + 1;
+                    MessageBox.Show("Dog no." + winningDog + "won the race");
                 }
 
+                for (int b = 0; b <guys.Length; b++)
+                {
+                    guys[b].Collect(winningDog);
+                }
+
+                refreshGuyState();
+                //bettingGroup.Enabled = true;
+                break;
             }
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
